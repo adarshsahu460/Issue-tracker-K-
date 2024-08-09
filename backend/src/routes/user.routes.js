@@ -11,7 +11,13 @@ import {
 } from "../controllers/user.controllers.js";
 
 
-import { createIssue } from "../controllers/issue.controllers.js";
+import { 
+    createIssue,
+    getissue,
+    updateResponses,
+    getIssueforuser,
+    sendReportToAdmin
+} from "../controllers/issue.controllers.js";
 
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
@@ -28,6 +34,10 @@ router.route("/change-password").post(verifyJWT, changeCurrentPassword)
 router.route("/current-user").get(verifyJWT, getCurrentUser)
 router.route("/update-account").patch(verifyJWT, updateAccountDetails)
 
-router.route("/raise-issue").post(createIssue)
+router.route("/raise-issue").post(verifyJWT,createIssue)
 router.route("/get-department").get(verifyJWT,getdepartment)
+router.route("/get-issue").get(verifyJWT,getissue)
+router.route("/get-issue-for-user").get(verifyJWT,getIssueforuser)
+router.route("/update-response").put(verifyJWT,updateResponses)
+router.route("/send-report").get(verifyJWT,sendReportToAdmin)
 export default router

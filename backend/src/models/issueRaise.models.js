@@ -27,9 +27,9 @@ const issueSchema = new Schema(
             type : Boolean,
             default:false
         },
-        responseId: {
+        userId: {
             type: Schema.Types.ObjectId,
-            ref: "Response"
+            ref: "User"
         }
 
     },
