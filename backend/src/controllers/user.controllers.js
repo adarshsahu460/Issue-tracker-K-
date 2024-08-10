@@ -108,11 +108,11 @@ const loginUser = asyncHandler(async (req, res) =>{
 
    const isPasswordValid = await user.isPasswordCorrect(password)
 
-   if (!isPasswordValid) {
-    throw new ApiError(401, "Invalid user credentials")
+    if (!isPasswordValid) {
+        throw new ApiError(401, "Invalid user credentials")
     }
 
-   const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
+    const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
@@ -121,11 +121,9 @@ const loginUser = asyncHandler(async (req, res) =>{
         secure: false,
         sameSite : "lax"
     }
-
-    return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    res.cookie("accessToken", accessToken, options)
+    // .cookie("refreshToken", refreshToken, options)
+    return res.status(200)
     .json(
         new ApiResponse(
             200, 
@@ -153,7 +151,7 @@ const logoutUser = asyncHandler(async(req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: true
+        secure: false
     }
 
     return res
@@ -189,7 +187,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     
         const options = {
             httpOnly: true,
-            secure: true
+            secure: false
         }
     
         const {accessToken, newRefreshToken} = await generateAccessAndRefereshTokens(user._id)

@@ -26,7 +26,7 @@ function Register(){
     const res = await axios.post('http://localhost:8000/api/v1/users/register',{
       fullName: formData.name,
       email:formData.email, username:formData.userId, password:formData.password,department:formData.department, phoneNumber:formData.phone
-    })
+    },{withCredentials:true});
     console.log(res);
   };
 

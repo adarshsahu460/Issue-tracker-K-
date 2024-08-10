@@ -10,7 +10,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 
 const createIssue = asyncHandler(async (req,res)=>{
     const {issue,description,address,requireDepartment} = req.body
-
+    console.log(req.body)
     if (
         [issue,address,requireDepartment].some((field) => field?.trim() === "")
     ) {
@@ -161,9 +161,7 @@ const updateResponses = asyncHandler(async (req, res) => {
 
 const getIssueforuser = asyncHandler(async (req,res)=>{
     const getuser = req.user._id
-
     const findproblems = await Issue.find({userId:getuser})
-
     return res
     .status(200)
     .json(new ApiResponse(201,findproblems,"problem is fetched successfully to users"))

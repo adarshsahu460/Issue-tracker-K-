@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {useEffect} from 'react';
-
+import axios from 'axios';
 import './IssueForm.css';
 
 function IssueForm () {
@@ -9,11 +9,8 @@ function IssueForm () {
     issue: '',
     description: '',
     address: '',
-    department: '',
+    requireDepartment: '',
   });
-
-
-  const [newTask, setNawtask] = useState([]);
 
   const navigateToAboutPage = () => {
     window.location.href = '/issue-form';
@@ -23,9 +20,9 @@ function IssueForm () {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    await axios.post('http://localhost:8000/api/v1/users/raise-issue', formData,{withCredentials:true})
     navigateToAboutPage();
   };
 
@@ -60,13 +57,13 @@ function IssueForm () {
             onChange={handleChange}
             required
           />
-          <input
+         <input
             type="text"
-            name="department"
-            placeholder="Related Department"
-            value={formData.department}
+            name="requireDepartment"
+            placeholder="Department"
+            value={formData.requireDepartment}
             onChange={handleChange}
-            required 
+            required
           />
           <button type="submit" onClick={handleSubmit}>Submit</button>
         </form>
