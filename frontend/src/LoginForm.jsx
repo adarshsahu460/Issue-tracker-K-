@@ -5,48 +5,55 @@ import './LoginForm.css';
 import axios from 'axios';
 
 function LoginForm() {
-  
+
   const [formData, setFormData] = useState({
-    email: 'tanmay.chavan@walchandsangli.ac.in',
     userid: '',
     password: '',
   });
 
-  
+  // const navigateToAboutPage = () => {
+  //   if (jokes[0].id == formData.userid) {
+  //     window.location.href = '/issue-history';
+  //   }
+  //   else {
+  //     alert("Please enter correct user id and password")
+  //   }
 
-  const navigateToAboutPage = () => {
-    if(jokes[0].id == formData.userid){
-      window.location.href = '/issue-history';
-    }
-    else{
-      alert("Please enter correct user id and password")
-    }
-    
-  };
+  // };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value});
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    try{
-      const res = await axios.post('http://localhost:8000/api/v1/users/login',{
-        email:formData.email, username:formData.userId, password:formData.password
-      })
 
-      if(res.data.statusCode == 200){
+    const config = {
+      headers: { "Content-Type": "application/json" }
+    }
+    // Handle form submission
+    try {
+      console.log(formData);
+      
+      const res = await axios.post('http://localhost:8000/api/v1/users/login', {
+        username: formData.userid, password: formData.password
+      },
+       config
+      )
+      console.log(res.data);
+
+
+      if (res.data.statusCode == 200) {
         console.log("Success ")
-      }else{
+      } else {
         console.log("Error");
       }
 
-    }catch(e){
+    } catch (e) {
       // console.log(e);
       alert("Error : Wrong password");
     }
-    
+
     // navigateToAboutPage();
   };
 
@@ -69,14 +76,14 @@ function LoginForm() {
             name="password"
             placeholder="Password"
             value={formData.password}
-            onChange={handleChange}
+            onChange={(e)=> setFormData({...formData, password: e.target.value})}
             required
           />
           <button type="submit">Login</button>
         </form>
       </div>
-      
-      
+
+
     </>
   );
 }
